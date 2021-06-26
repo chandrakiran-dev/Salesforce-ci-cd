@@ -22,13 +22,13 @@ jobs:
               if: steps.check.outputs.isMatch == 'true'
               with:
                   args: force:source:push
-            - name: Check move from "TODO" to "IN PROGRESS"
+            - name: Check move from "TO DO" to "IN PROGRESS"
               id: check
               uses: chandrakiran-dev/sfdx-actions/project_card-check-movement@master
               with:
                   token: ${{ secrets.GITHUB_TOKEN }}
                   fromColumnId: ${{ github.event.changes.column_id.from }}
-                  fromColumnName: TODO
+                  fromColumnName: TO DO
                   toColumnId: ${{ github.event.project_card.column_id }}
                   toColumnName: IN PROGRESS
             - name: Run a one-line script
