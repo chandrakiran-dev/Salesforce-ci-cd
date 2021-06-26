@@ -33,4 +33,7 @@ jobs:
                   toColumnName: IN PROGRESS
             - name: Run a one-line script
               run: echo complted
+            - name: Check out the source code
+              if: steps.check.outputs.isMatch == 'true'
+              run: echo success
     
