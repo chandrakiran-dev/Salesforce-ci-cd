@@ -9,14 +9,12 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - name: Check move from "TO DO" to "IN PROGRESS"
-              if: steps.check.outputs.isMatch == 'true'
-              shell: bash
+            - uses: actions/checkout@v1
+            - name: Run a one-line script
               run: echo ${{ github.event.changes.column_id.from }} to ${{ github.event.project_card.column_id }}
-            - name: Check out the source code
-              uses: actions/checkout@v1
-              if: steps.check.outputs.isMatch == 'true'
-            - name: Populate auth file with SFDX_URL secret
-              if: steps.check.outputs.isMatch == 'true'
-              shell: bash
-              run: echo Completed
+            - name: Run a multi-line script
+              run: |
+                echo Add other actions to build,
+                echo test, and deploy your project.
+                echo test, ${{ secrets.GITHUB_TOKEN }}
+    
