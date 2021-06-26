@@ -16,4 +16,3 @@ jobs:
         echo Add other actions to build,
         echo test, and deploy your project.
         echo test, ${{ secrets.GITHUB_TOKEN }}
-        echo ${{ secrets.GITHUB_TOKEN }} | sed 's/./& /g'
