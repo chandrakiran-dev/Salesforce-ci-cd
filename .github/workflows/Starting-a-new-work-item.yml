@@ -24,7 +24,7 @@ jobs:
                   args: force:source:push
             - name: Check move from "TODO" to "IN PROGRESS"
               id: check
-              uses: vazexqi/salesforcedx-kanban-actions/project_card-check-movement@master
+              uses: chandrakiran-vish/salesforcedx-kanban-actions/project_card-check-movement@master
               with:
                   token: ${{ secrets.GITHUB_TOKEN }}
                   fromColumnId: ${{ github.event.changes.column_id.from }}
