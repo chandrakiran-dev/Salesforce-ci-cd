@@ -22,6 +22,15 @@ jobs:
               if: steps.check.outputs.isMatch == 'true'
               with:
                   args: force:source:push
+            - name: Check move from "TODO" to "IN PROGRESS"
+              id: check
+              uses: chandrakiran-vish/salesforcedx-kanban-actions/project_card-check-movement@master
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN}}
+                  fromColumnId: ${{ github.event.changes.column_id.from }}
+                  fromColumnName: TODO
+                  toColumnId: ${{ github.event.project_card.column_id }}
+                  toColumnName: IN PROGRESS
             - name: Run a one-line script
               run: echo complted
     
