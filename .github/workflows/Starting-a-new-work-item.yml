@@ -21,12 +21,17 @@ jobs:
             - name: Check out the source code
               uses: actions/checkout@v1
               if: steps.check.outputs.isMatch == 'true'
+            - name: Print featue franch name
+              if: steps.check.outputs.isMatch == 'true'
+              shell: bash
+              run: echo feature/${{ github.event.issue.number }} ${{ github.event.issue.title }}
             - name: Create new feature branch
               uses: peterjgrainger/action-create-branch@v2.0.1
+              if: steps.check.outputs.isMatch == 'true'
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
-                  branch: 'feature/[${{ github.event.issue.number }}]${{ github.event.issue.title }}'
+                  branch: ${{ github.event.issue.number }} ${{ github.event.issue.title }}
             - name: Populate auth file with SFDX_URL secret
               if: steps.check.outputs.isMatch == 'true'
               shell: bash
