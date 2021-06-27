@@ -24,7 +24,7 @@ jobs:
             - name: Print featue franch name
               if: steps.check.outputs.isMatch == 'true'
               shell: bash
-              run: echo feature/${{ github.event.issue.number }} ${{ github.event.issue.title }}
+              run: echo feature/${{ github.event.project_card.name}}
             - name: Create new feature branch
               uses: peterjgrainger/action-create-branch@v2.0.1
               if: steps.check.outputs.isMatch == 'true'
