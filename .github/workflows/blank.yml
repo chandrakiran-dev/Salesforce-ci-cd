@@ -18,7 +18,6 @@ jobs:
         echo test, ${{ secrets.GITHUB_TOKEN }}
     - name: Get Github User Info
       id: github_user_info
-      if: steps.check.outputs.isMatch == 'true'
       uses: chandrakiran-dev/sfdx-actions/get-user-info@master
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
