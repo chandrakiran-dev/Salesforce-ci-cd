@@ -23,7 +23,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
     - name: Print User
       run: | 
-        echo test, ${{steps.github_user_info.outputs.OUTPUT_USER.email}}
+        echo test, ${{steps.github_user_info.outputs.OUTPUT_USER}}
         echo test, ${{ github.event.push.user.login }}
       
       
