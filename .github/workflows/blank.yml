@@ -18,6 +18,5 @@ jobs:
         echo test, ${{ secrets.GITHUB_TOKEN }}
     - name: Get Github User Info
       id: github_user_info
-      if: steps.check.outputs.isMatch == 'true'
       shell: bash
       run: curl https://api.github.com/user
