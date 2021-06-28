@@ -5,6 +5,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const DISPLAY_URL_JSON = JSON.parse(process.env.DISPLAY_URL_JSON);
 const DISPLAY_USER_JSON = JSON.parse(process.env.DISPLAY_USER_JSON);
+const TO_EMAIL = process.env.TO_EMAIL;
 
 const TEXT = `
 Here's your personal scratch org info.
@@ -17,7 +18,7 @@ Login URL: ${DISPLAY_USER_JSON.result.loginUrl}
 `;
 
 const msg = {
-    to: 'chandra@relayco.io',
+    to: TO_EMAIL,
     from: 'chandrakiran.vish@gmail.com',
     subject: 'Welcome to your new scratch org',
     text: TEXT,
