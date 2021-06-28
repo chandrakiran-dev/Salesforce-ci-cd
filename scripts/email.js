@@ -17,7 +17,7 @@ Login URL: ${DISPLAY_USER_JSON.result.loginUrl}
 `;
 
 const msg = {
-    to: 'chandrakiran.vish@gmail.com',
+    to: 'chandra@relayco.io',
     from: 'chandrakiran.vish@gmail.com',
     subject: 'Welcome to your new scratch org',
     text: TEXT,
