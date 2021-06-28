@@ -24,3 +24,8 @@ jobs:
     - name: Print User
       shell: bash
       run: echo ${{steps.github_user_info.outputs.OUTPUT_USER.email}}
+    - name: Print Username
+      shell: bash
+      run: echo ${{ github.event.push.user.login }}
+      
+      
