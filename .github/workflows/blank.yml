@@ -24,6 +24,6 @@ jobs:
     - name: Print User
       run: | 
         echo test, ${{steps.github_user_info.outputs.OUTPUT_USER}}
-        echo test, ${{ github.event.push.user.login }}
+        echo test, ${{ github.actor }}
       
       
