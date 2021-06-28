@@ -21,6 +21,7 @@ jobs:
       uses: chandrakiran-dev/sfdx-actions/get-user-info@master
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+        USERNAME: ${{ github.actor }}
     - name: Print User
       run: | 
         echo test, ${{steps.github_user_info.outputs.OUTPUT_USER}}
