@@ -16,6 +16,7 @@ Username: ${DISPLAY_USER_JSON.result.username}
 Instance URL: ${DISPLAY_USER_JSON.result.instanceUrl}
 Login URL: ${DISPLAY_USER_JSON.result.loginUrl}
 `;
+console.log('TO_EMAIL', TO_EMAIL);
 
 const msg = {
     to: TO_EMAIL,
