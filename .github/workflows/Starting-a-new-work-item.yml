@@ -62,6 +62,12 @@ jobs:
               if: steps.check.outputs.isMatch == 'true'
               with:
                   args: force:org:open --urlonly --targetusername=new-user --json
+            - name: Get Github User Info
+              id: github_user_info
+              uses: chandrakiran-dev/sfdx-actions/get-user-info@master
+              with:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+                USERNAME: ${{ github.actor }}
             - name: SendGrid
               uses: vazexqi/sendgrid-action@v1.0.0
               if: steps.check.outputs.isMatch == 'true'
@@ -69,6 +75,7 @@ jobs:
                   DISPLAY_USER_JSON: ${{ steps.display_user.outputs.result }}
                   DISPLAY_URL_JSON: ${{ steps.display_url.outputs.result }}
                   SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+                  TO_EMAIL: ${{steps.github_user_info.outputs.OUTPUT_USER}}
                   SCRIPT_FILEPATH: scripts/email.js
             - name: Display org information
               id: display_org
