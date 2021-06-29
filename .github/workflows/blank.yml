@@ -28,6 +28,7 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
         ISSUE_NUMBER: '3'
+        PROJECT_PREFIX: ${{ secrets.PROJECT_NAME }}
     - name: Print branch name
       run: echo Hello, world! ${{steps.get_branch_name.outputs.BRANCH_NAME}}
     #- name: Get Github User Info
