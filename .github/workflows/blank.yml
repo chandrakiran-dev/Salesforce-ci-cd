@@ -36,7 +36,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        branch: ${{steps.get_branch_name.outputs.BRANCH_NAME}}
+        branch: '${{steps.get_branch_name.outputs.BRANCH_NAME}}'
    
 
       
