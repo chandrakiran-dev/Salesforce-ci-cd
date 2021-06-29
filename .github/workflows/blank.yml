@@ -22,9 +22,13 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
         USERNAME: ${{ github.actor }}
-    - name: Print User
-      run: | 
-        echo test, ${{steps.github_user_info.outputs.OUTPUT_USER}}
-        echo test, ${{ github.actor }}
+    - name: Get Github User Info
+      id: firebase_token
+      uses: chandrakiran-dev/sfdx-actions/firebase-actions@master
+      with:
+        FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL}}
+        FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
+    - name: Token
+      run: echo ${{ steps.firebase_token.outputs.ACCESS_TOKEN }}
       
       
