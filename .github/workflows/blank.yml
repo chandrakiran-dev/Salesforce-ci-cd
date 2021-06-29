@@ -22,12 +22,20 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
         USERNAME: ${{ github.actor }}
-    - name: Get Github User Info
-      uses: peterjgrainger/action-create-branch@v2.0.1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Get branch name
+      id: get_branch_name
+      uses: chandrakiran-dev/sfdx-actions/get-branch-name@master
       with:
-        branch: 'release-notes'
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+        USERNAME: ${{ github.actor }}
+    - name: Print branch name
+      run: echo Hello, world! ${{staps.get_branch_name.outputs.BRANCH_NAME}}
+    #- name: Get Github User Info
+    #  uses: peterjgrainger/action-create-branch@v2.0.1
+    #  env:
+    #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #  with:
+    #    branch: 'release-notes'
    
 
       
