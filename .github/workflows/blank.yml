@@ -23,16 +23,12 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
         USERNAME: ${{ github.actor }}
     - name: Get Github User Info
-      id: firebase_token
-      uses: chandrakiran-dev/sfdx-actions/firebase-actions@master
+      uses: peterjgrainger/action-create-branch@v2.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL}}
-        FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
-    - name: Stash credentials for later
-      shell: bash
-      run: |
-          value=$(node scripts/extract-issue-number.js "https://api.github.com/repos/chandrakiran-dev/Salesforce-ci-cd/issues/3")
-          curl -X PUT -d '"'"${value}"'"' https://salesforce-orgs-default-rtdb.firebaseio.com/${{ secrets.PROJECT_NAME }}-$value.json?access_token=${{ steps.firebase_token.outputs.ACCESS_TOKEN }}
+        branch: 'release-notes'
+   
 
       
 
