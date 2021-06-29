@@ -33,5 +33,5 @@ jobs:
     - name: Stash credentials for later
       shell: bash
       run: |
-        curl -X PUT -d '"https://google.com"' "https://salesforce-orgs-default-rtdb.firebaseio.com/test-1.json?access_token=${{ steps.firebase_token.outputs.ACCESS_TOKEN }}"
+        curl -X PUT -d '"https://google.com"' "https://salesforce-orgs-default-rtdb.firebaseio.com/${{ secrets.PROJECT_NAME }}-1.json?access_token=${{ steps.firebase_token.outputs.ACCESS_TOKEN }}"
       
