@@ -32,7 +32,7 @@ jobs:
       shell: bash
       run: |
           value=$(node scripts/extract-issue-number.js "https://api.github.com/repos/chandrakiran-dev/Salesforce-ci-cd/issues/3")
-          curl -X PUT -d '{"text": "'"${value}"'"}' https://salesforce-orgs-default-rtdb.firebaseio.com/${{ secrets.PROJECT_NAME }}-$value.json?access_token=${{ steps.firebase_token.outputs.ACCESS_TOKEN }}
+          curl -X PUT -d '"'"${value}"'"' https://salesforce-orgs-default-rtdb.firebaseio.com/${{ secrets.PROJECT_NAME }}-$value.json?access_token=${{ steps.firebase_token.outputs.ACCESS_TOKEN }}
 
       
 
