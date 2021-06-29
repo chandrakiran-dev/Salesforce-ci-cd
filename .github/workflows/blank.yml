@@ -28,16 +28,12 @@ jobs:
       with:
         FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL}}
         FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
-    - name: Token
-      run: echo ${{ steps.firebase_token.outputs.ACCESS_TOKEN }}
     - name: Stash credentials for later
       shell: bash
       run: |
-        curl -X PUT -d '"https://google-test.com"' "https://salesforce-orgs-default-rtdb.firebaseio.com/${{ secrets.PROJECT_NAME }}-1.json?access_token=${{ steps.firebase_token.outputs.ACCESS_TOKEN }}"       
-    - name: get value
-      shell: bash
-      run: |
-        curl -X GET "https://salesforce-orgs-default-rtdb.firebaseio.com/${{ secrets.PROJECT_NAME }}-1.json?access_token=${{ steps.firebase_token.outputs.ACCESS_TOKEN }}"
+          value=$(node scripts/extract-issue-number.js "https://api.github.com/repos/chandrakiran-dev/Salesforce-ci-cd/issues/3")
+          curl -X PUT -d '"'"${value}"'"' https://salesforce-orgs-default-rtdb.firebaseio.com/${{ secrets.PROJECT_NAME }}-$value.json?access_token=${{ steps.firebase_token.outputs.ACCESS_TOKEN }}
+
       
 
       

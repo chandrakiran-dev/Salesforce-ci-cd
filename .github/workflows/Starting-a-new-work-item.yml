@@ -84,4 +84,17 @@ jobs:
               if: steps.check.outputs.isMatch == 'true'
               with:
                   args: force:org:display --targetusername=new-user --verbose --json
-    
+            - name: Get Github User Info
+              id: firebase_token
+              uses: chandrakiran-dev/sfdx-actions/firebase-actions@master
+              with:
+                FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL}}
+                FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
+            - name: Stash credentials for later
+              if: steps.check.outputs.isMatch == 'true'
+              shell: bash
+              run: |
+                  value=$(node scripts/extract-issue-number.js ${{ github.event.project_card.content_url }})
+                  result=${{ toJSON(steps.display_org.outputs.result) }}
+                  sfdxurl=$(echo $result | jq -r .result.sfdxAuthUrl)
+                  curl -X PUT -d '"'"${sfdxurl}"'"' https://salesforce-orgs-default-rtdb.firebaseio.com/${{ secrets.PROJECT_NAME }}-$value.json?access_token=${{ steps.firebase_token.outputs.ACCESS_TOKEN }}
