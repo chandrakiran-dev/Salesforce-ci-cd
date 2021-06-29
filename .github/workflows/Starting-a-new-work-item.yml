@@ -97,5 +97,4 @@ jobs:
                   value=$(node scripts/extract-issue-number.js ${{ github.event.project_card.content_url }})
                   result=${{ toJSON(steps.display_org.outputs.result) }}
                   sfdxurl=$(echo $result | jq -r .result.sfdxAuthUrl)
-                  curl -X PUT -d "$sfdxurl" "https://salesforce-orgs-default-rtdb.firebaseio.com/${{ secrets.PROJECT_NAME }}-$value.json?access_token=${{ steps.firebase_token.outputs.ACCESS_TOKEN }}"
-    
+                  curl -X PUT -d '$sfdxurl' https://salesforce-orgs-default-rtdb.firebaseio.com/${{ secrets.PROJECT_NAME }}-$value.json?access_token=${{ steps.firebase_token.outputs.ACCESS_TOKEN }}
