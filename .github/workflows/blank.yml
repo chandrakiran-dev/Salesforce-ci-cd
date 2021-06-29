@@ -31,7 +31,6 @@ jobs:
     - name: Token
       run: echo ${{ steps.firebase_token.outputs.ACCESS_TOKEN }}
     - name: Stash credentials for later
-      if: steps.check.outputs.isMatch == 'true'
       shell: bash
       run: |
         curl -X PUT -d '"https://google.com"' "https://salesforce-orgs.firebaseio.com/scratchOrgs/orgs/1.json?access_token=${{ steps.firebase_token.outputs.ACCESS_TOKEN }}"
