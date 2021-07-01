@@ -6,7 +6,7 @@ on:
     - "feature/*"
 
 jobs:
-  demo:
+  Push-event-feature-branch:
 
     runs-on: ubuntu-latest
 
