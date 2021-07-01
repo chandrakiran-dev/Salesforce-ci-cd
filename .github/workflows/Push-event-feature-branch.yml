@@ -13,28 +13,20 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
-        echo test, ${{ secrets.GITHUB_TOKEN }}
-    - name: Get Github User Info
-      id: github_user_info
-      uses: chandrakiran-dev/sfdx-actions/get-user-info@master
+      run: echo Push-event-feature-branch
+    - name: Populate auth file with SFDX_URL secret
+      shell: bash
+      run: echo ${{ secrets.UAT_ORG_SFDXURL}} > ./SFDX_UAT_URL_STORE.txt
+    - name: Authenticate against UAT org
+      uses: forcedotcom/salesforcedx-actions@master
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
-        USERNAME: ${{ github.actor }}
-    - name: Get branch name
-      id: get_branch_name
-      uses: chandrakiran-dev/sfdx-actions/get-branch-name@master
+          args: force:auth:sfdxurl:store --sfdxurlfile=.github_actions/.SFDX_UAT_URL_STORE.txt --setalias=uat-org
+    - name: Verify the deployment
+      uses: forcedotcom/salesforcedx-actions@master
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
-        ISSUE_NUMBER: '3'
-        PROJECT_PREFIX: ${{ secrets.PROJECT_NAME }}
-    - name: Print branch name
-      run: echo Hello, world! ${{steps.get_branch_name.outputs.BRANCH_NAME}}
-   
+          args: force:source:deploy --targetusername=uat-org --checkonly --testlevel RunLocalTests
+    - name: Run a one-line script
+      run: echo Run Completed
 
       
 
