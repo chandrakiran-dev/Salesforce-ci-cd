@@ -24,7 +24,7 @@ jobs:
     - name: Verify the deployment
       uses: forcedotcom/salesforcedx-actions@master
       with:
-          args: force:source:deploy -p force-app/main/default --targetusername=uat-org --testlevel RunLocalTests --checkonly --json
+          args: force:source:deploy -p force-app/main/default --targetusername=uat-org --testlevel RunLocalTests --json
     - name: Run a one-line script
       run: echo Run Completed
 
