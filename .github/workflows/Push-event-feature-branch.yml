@@ -25,6 +25,10 @@ jobs:
       uses: forcedotcom/salesforcedx-actions@master
       with:
           args: force:source:deploy -p force-app/main/default --targetusername=uat-org --json --checkonly
+    - name: Display Report
+      uses: forcedotcom/salesforcedx-actions@master
+      with:
+          args: force:source:deploy:report --targetusername=uat-org --json
     - name: Run a one-line script
       run: echo Run Completed
 
