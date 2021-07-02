@@ -25,10 +25,10 @@ jobs:
       uses: forcedotcom/salesforcedx-actions@master
       with:
           args: force:mdapi:deploy -d manifest/ -l RunLocalTests --targetusername=uat-org --checkonly --loglevel error
-    #- name: Display Report
-    #  uses: forcedotcom/salesforcedx-actions@master
-    #  with:
-    #      args: force:source:deploy:report --checkonly -l RunLocalTests --targetusername=uat-org --json --loglevel error
+    - name: Display Report
+      uses: forcedotcom/salesforcedx-actions@master
+      with:
+          args: force:source:deploy:report
     - name: Run a one-line script
       run: echo Run Completed
 
