@@ -25,7 +25,7 @@ jobs:
       id: deploy
       uses: forcedotcom/salesforcedx-actions@master
       with:
-          args: force:mdapi:deploy -d manifest/ -l RunLocalTests --targetusername=uat-org --checkonly --loglevel error
+          args: force:mdapi:deploy -d manifest/ -l RunLocalTests --targetusername=uat-org --checkonly --verbose --loglevel error
     - name: Display Report
       uses: forcedotcom/salesforcedx-actions@master
       with:
