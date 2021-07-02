@@ -24,7 +24,7 @@ jobs:
     - name: Verify the deployment
       uses: forcedotcom/salesforcedx-actions@master
       with:
-          args: force:mdapi:deploy -d force-app/main/default -l RunLocalTests --targetusername=uat-org --json --checkonly --loglevel error
+          args: force:source:deploy -p force-app/main/default -l RunLocalTests --targetusername=trailhead --checkonly --loglevel error
     #- name: Display Report
     #  uses: forcedotcom/salesforcedx-actions@master
     #  with:
