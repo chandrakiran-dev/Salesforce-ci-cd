@@ -28,7 +28,7 @@ jobs:
     - name: Display Report
       uses: forcedotcom/salesforcedx-actions@master
       with:
-          args: force:source:deploy:report
+          args: force:source:deploy:report --targetusername=uat-org
     - name: Run a one-line script
       run: echo Run Completed
 
