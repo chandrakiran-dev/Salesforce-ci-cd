@@ -28,9 +28,14 @@ jobs:
               run: |
                   value=$(node scripts/extract-issue-number.js ${{ github.event.project_card.content_url }})
                   echo "::set-output name=ticket_number::$value"
-            - name: Console.log 1
+            - name: Get branch name
               if: steps.check.outputs.isMatch == 'true'
-              run: echo Hello, world! ${{ steps.get_issue_number.outputs.ticket_number }}
+              id: get_branch_name
+              uses: chandrakiran-dev/sfdx-actions/get-branch-name@master
+              with:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+                ISSUE_NUMBER: ${{ steps.stash_credentials.outputs.ticket_number }}
+                PROJECT_PREFIX: ${{ secrets.PROJECT_NAME }}
             - name: Check pull request exist
               if: steps.check.outputs.isMatch == 'true'
               id: pull_exist
@@ -47,6 +52,24 @@ jobs:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
                 ISSUE_NUMBER: ${{ steps.get_issue_number.outputs.ticket_number }}
                 LABEL: 'Functional'
+            - name: Switch brench to feature
+              if: steps.check.outputs.isMatch == 'true' && steps.pull_exist.outputs.IS_EXIST == 'false' && steps.is_functional.outputs.IS_EXIST = 'false'
+              shell: bash
+              run: |
+                  git config --local user.email "action@github.com"
+                  git config --local user.name "GitHub Action"
+                  git checkout ${{ steps.get_branch_name.outputs.BRANCH_NAME }}
+            - name: Create a PR
+              uses: chandrakiran-dev/sfdx-actions/pulls-create-pr@master
+              if: steps.check.outputs.isMatch == 'true' && steps.pull_exist.outputs.IS_EXIST == 'false' && steps.is_functional.outputs.IS_EXIST = 'false'
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN}}
+                  owner: ${{ github.event.repository.owner.login }}
+                  repo: ${{ github.event.repository.name }}
+                  title: ${{ steps.get_branch_name.outputs.BRANCH_NAME }}
+                  body: ${{ format('Changes from \#{0}', steps.get_branch_name.outputs.BRANCH_NAME)}}
+                  head: ${{ steps.get_branch_name.outputs.BRANCH_NAME }}
+                  base: master
             - name: Console.log
               if: steps.check.outputs.isMatch == 'true'
               run: echo Hello, world! ${{ steps.pull_exist.outputs.IS_EXIST }} and ${{ steps.is_functional.outputs.IS_EXIST }}
