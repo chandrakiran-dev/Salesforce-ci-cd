@@ -13,6 +13,7 @@ You can open your org at ${DISPLAY_URL_JSON.result.url}.
 Here are some other details of your org.
 Org ID: ${DISPLAY_USER_JSON.result.orgId}
 Username: ${DISPLAY_USER_JSON.result.username}
+Password: ${DISPLAY_USER_JSON.result.password}
 Instance URL: ${DISPLAY_USER_JSON.result.instanceUrl}
 Login URL: ${DISPLAY_USER_JSON.result.loginUrl}
 `;
