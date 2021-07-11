@@ -35,4 +35,5 @@ jobs:
                 PROJECT_PREFIX: ${{ secrets.PROJECT_NAME }}
             
             - name: Console.log
+              if: steps.check.outputs.isMatch == 'true'
               run: echo Hello, world! ${{ steps.pull_exist.outputs.IS_EXIST }}
