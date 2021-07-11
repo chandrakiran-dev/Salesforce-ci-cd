@@ -39,11 +39,11 @@ jobs:
             - name: Check Function label exist
               if: steps.check.outputs.isMatch == 'true'
               id: is_functional
-              uses: chandrakiran-dev/sfdx-actions/check-pull-request-exist@master
+              uses: chandrakiran-dev/sfdx-actions/check-label-exist-on-issue@master
               with:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
                 ISSUE_NUMBER: ${{ steps.get_issue_number.outputs.ticket_number }}
-                PROJECT_PREFIX: 'Feature'
+                LABEL: 'Feature'
             - name: Console.log
               if: steps.check.outputs.isMatch == 'true'
               run: echo Hello, world! ${{ steps.pull_exist.outputs.IS_EXIST }} and ${{ steps.is_functional.outputs.IS_EXIST }}
