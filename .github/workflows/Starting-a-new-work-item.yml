@@ -87,6 +87,7 @@ jobs:
             - name: Get Github User Info
               id: firebase_token
               uses: chandrakiran-dev/sfdx-actions/firebase-actions@master
+              if: steps.check.outputs.isMatch == 'true'
               with:
                 FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL}}
                 FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
