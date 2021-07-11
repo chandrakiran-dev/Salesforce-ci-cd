@@ -88,16 +88,16 @@ jobs:
                   touch .github_actions/.SFDX_URL_STORE.txt
                   string=$(curl https://salesforce-orgs-default-rtdb.firebaseio.com/${{ secrets.PROJECT_NAME }}-$value.json?access_token=${{ steps.firebase_token.outputs.ACCESS_TOKEN }})
                   echo ${string:1:-1} >> .github_actions/.SFDX_URL_STORE.txt
-            - name: Console.log 2
-              if: steps.check.outputs.isMatch == 'true'
-              shell: bash
-              run: |
-                  tail .github_actions/.SFDX_URL_STORE.txt
             - name: Authenticate against scratch org
               uses: forcedotcom/salesforcedx-actions@master
               if: steps.check.outputs.isMatch == 'true' && steps.is_functional.outputs.IS_EXIST == 'true'
               with:
                   args: force:auth:sfdxurl:store --sfdxurlfile=.github_actions/.SFDX_URL_STORE.txt --setalias=scratch-org
+            - name: Remove auth file
+              if: steps.check.outputs.isMatch == 'true' && steps.is_functional.outputs.IS_EXIST == 'true'
+              shell: bash
+              run: |
+                  rm -r .github_actions
             - name: Retrieve metadata changes
               uses: forcedotcom/salesforcedx-actions@master
               if: steps.check.outputs.isMatch == 'true' && steps.is_functional.outputs.IS_EXIST == 'true'
