@@ -46,7 +46,7 @@ jobs:
               with:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
                 ISSUE_NUMBER: ${{ steps.get_issue_number.outputs.ticket_number }}
-                LABEL: 'Feature'
+                LABEL: 'Functional'
             - name: Console.log
               if: steps.check.outputs.isMatch == 'true'
               run: echo Hello, world! ${{ steps.pull_exist.outputs.IS_EXIST }} and ${{ steps.is_functional.outputs.IS_EXIST }}
