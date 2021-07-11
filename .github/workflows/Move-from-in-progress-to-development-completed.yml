@@ -34,7 +34,7 @@ jobs:
               uses: chandrakiran-dev/sfdx-actions/get-branch-name@master
               with:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
-                ISSUE_NUMBER: ${{ steps.stash_credentials.outputs.ticket_number }}
+                ISSUE_NUMBER: ${{ steps.get_issue_number.outputs.ticket_number }}
                 PROJECT_PREFIX: ${{ secrets.PROJECT_NAME }}
             - name: Check pull request exist
               if: steps.check.outputs.isMatch == 'true'
