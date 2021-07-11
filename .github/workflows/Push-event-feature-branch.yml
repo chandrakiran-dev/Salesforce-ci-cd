@@ -22,14 +22,10 @@ jobs:
       with:
           args: force:auth:sfdxurl:store --sfdxurlfile=./SFDX_UAT_URL_STORE.txt --setalias=uat-org
     - name: Verify the deployment
-      id: deploy
+      id: varify
       uses: forcedotcom/salesforcedx-actions@master
       with:
-          args: force:mdapi:deploy -d manifest/ -l RunLocalTests --targetusername=uat-org --checkonly --verbose --loglevel error
-    - name: Display Report
-      uses: forcedotcom/salesforcedx-actions@master
-      with:
-          args: force:source:deploy:report --targetusername=uat-org -i ${{ steps.deploy.outputs.result }}
+          args: force:source:deploy -p force-app/main/default -l RunLocalTests --targetusername=uat-org --checkonly --loglevel error
     - name: Run a one-line script
       run: echo Run Completed
 
