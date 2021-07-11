@@ -18,6 +18,9 @@ jobs:
                   fromColumnName: IN PROGRESS
                   toColumnId: ${{ github.event.project_card.column_id }}
                   toColumnName: DEVELOPMENT COMPLETED
+            - name: Check out the source code
+              uses: actions/checkout@v1
+              if: steps.check.outputs.isMatch == 'true'
             - name: Get issue number
               id: get_issue_number
               if: steps.check.outputs.isMatch == 'true'
