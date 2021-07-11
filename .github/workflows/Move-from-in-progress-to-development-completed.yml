@@ -77,6 +77,11 @@ jobs:
               with:
                 FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL}}
                 FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
+            - name: Remove auth file
+              if: steps.check.outputs.isMatch == 'true' && steps.is_functional.outputs.IS_EXIST == 'true'
+              shell: bash
+              run: |
+                  rm -r .github_actions
             - name: Switch branch
               if: steps.check.outputs.isMatch == 'true' && steps.is_functional.outputs.IS_EXIST == 'true'
               shell: bash
