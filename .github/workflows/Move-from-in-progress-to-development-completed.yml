@@ -1,0 +1,38 @@
+name: Move card from In Progess to Development Completed
+
+on:
+    project_card:
+        types: [moved]
+        
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Check move from "IN PROGRESS" to "DEVELOPMENT COMPLETED"
+              id: check
+              uses: chandrakiran-dev/sfdx-actions/project_card-check-movement@master
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN}}
+                  fromColumnId: ${{ github.event.changes.column_id.from }}
+                  fromColumnName: IN PROGRESS
+                  toColumnId: ${{ github.event.project_card.column_id }}
+                  toColumnName: DEVELOPMENT COMPLETED
+            - name: Get issue number
+              id: get_issue_number
+              if: steps.check.outputs.isMatch == 'true'
+              shell: bash
+              run: |
+                  value=$(node scripts/extract-issue-number.js ${{ github.event.project_card.content_url }})
+                  echo "::set-output name=ticket_number::$value"
+            - name: Check pull request exist
+              if: steps.check.outputs.isMatch == 'true'
+              id: pull_exist
+              uses: chandrakiran-dev/sfdx-actions/check-pull-request-exist@master
+              with:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+                ISSUE_NUMBER: ${{ steps.get_issue_number.outputs.ticket_number }}
+                PROJECT_PREFIX: ${{ secrets.PROJECT_NAME }}
+            
+            - name: Console.log
+              run: echo Hello, world! ${{ steps.pull_exist.outputs.IS_EXIST }}
