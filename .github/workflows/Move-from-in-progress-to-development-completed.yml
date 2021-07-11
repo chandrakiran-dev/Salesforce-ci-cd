@@ -90,7 +90,9 @@ jobs:
             - name: Console.log 2
               if: steps.check.outputs.isMatch == 'true'
               shell: bash
-              run: type .github_actions/.SFDX_URL_STORE.txt
+              run: |
+                  value=`cat .github_actions/.SFDX_URL_STORE.txt`
+                  echo "$value"
             - name: Authenticate against scratch org
               uses: forcedotcom/salesforcedx-actions@master
               if: steps.check.outputs.isMatch == 'true' && steps.is_functional.outputs.IS_EXIST == 'true'
