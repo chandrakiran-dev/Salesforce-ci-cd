@@ -86,7 +86,8 @@ jobs:
                   echo "::set-output name=ticket_number::$value"
                   mkdir .github_actions
                   touch .github_actions/.SFDX_URL_STORE.txt
-                  curl https://salesforce-orgs-default-rtdb.firebaseio.com/${{ secrets.PROJECT_NAME }}-$value.json?access_token=${{ steps.firebase_token.outputs.ACCESS_TOKEN }} -o .github_actions/.SFDX_URL_STORE.txt
+                  string=$(curl https://salesforce-orgs-default-rtdb.firebaseio.com/${{ secrets.PROJECT_NAME }}-$value.json?access_token=${{ steps.firebase_token.outputs.ACCESS_TOKEN }})
+                  echo ${string:1:-1} >> .github_actions/.SFDX_URL_STORE.txt
             - name: Console.log 2
               if: steps.check.outputs.isMatch == 'true'
               shell: bash
