@@ -28,6 +28,9 @@ jobs:
               run: |
                   value=$(node scripts/extract-issue-number.js ${{ github.event.project_card.content_url }})
                   echo "::set-output name=ticket_number::$value"
+            - name: Console.log 1
+              if: steps.check.outputs.isMatch == 'true'
+              run: echo Hello, world! ${{ steps.get_issue_number.outputs.ticket_number }}
             - name: Check pull request exist
               if: steps.check.outputs.isMatch == 'true'
               id: pull_exist
