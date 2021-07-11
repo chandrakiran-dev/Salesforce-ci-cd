@@ -97,7 +97,7 @@ jobs:
               uses: forcedotcom/salesforcedx-actions@master
               if: steps.check.outputs.isMatch == 'true' && steps.is_functional.outputs.IS_EXIST == 'true'
               with:
-                  args: force:auth:sfdxurl:store --sfdxurlfile=.github_actions/.SFDX_URL_STORE.txt --setalias=scratch-org
+                  args: force:auth:sfdxurl:store --sfdxurlfile=.github_actions/.SFDX_URL_STORE.txt --setalias=scratch-org --verbose
             - name: Retrieve metadata changes
               uses: forcedotcom/salesforcedx-actions@master
               if: steps.check.outputs.isMatch == 'true' && steps.is_functional.outputs.IS_EXIST == 'true'
