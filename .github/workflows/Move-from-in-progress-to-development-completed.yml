@@ -84,11 +84,6 @@ jobs:
                   git config --local user.email "action@github.com"
                   git config --local user.name "GitHub Action"
                   git switch ${{ steps.get_branch_name.outputs.BRANCH_NAME }}
-            - name: Remove auth file
-              if: steps.check.outputs.isMatch == 'true' && steps.is_functional.outputs.IS_EXIST == 'true'
-              shell: bash
-              run: |
-                  rm -r .github_actions
             - name: Stash credentials for later
               id: stash_credentials
               if: steps.check.outputs.isMatch == 'true' && steps.is_functional.outputs.IS_EXIST == 'true'
