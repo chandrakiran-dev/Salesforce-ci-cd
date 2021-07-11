@@ -109,7 +109,7 @@ jobs:
               run: |
                   git config --local user.email "action@github.com"
                   git config --local user.name "GitHub Action"
-                  git checkout ${{ steps.get_branch_name.outputs.BRANCH_NAME }}
+                  git switch ${{ steps.get_branch_name.outputs.BRANCH_NAME }}
                   git add -A
                   git commit -m "Add new changes from scratch org"
             - name: Push changes
