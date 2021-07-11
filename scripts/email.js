@@ -18,8 +18,14 @@ Login URL: ${DISPLAY_USER_JSON.result.loginUrl}
 `;
 console.log('TO_EMAIL', TO_EMAIL);
 
-const msg = {
+/*const msg = {
     to: TO_EMAIL,
+    from: 'chandrakiran.vish@gmail.com',
+    subject: 'Welcome to your new scratch org',
+    text: TEXT,
+};*/
+const msg = {
+    to: 'chandra@relayco.io',
     from: 'chandrakiran.vish@gmail.com',
     subject: 'Welcome to your new scratch org',
     text: TEXT,
