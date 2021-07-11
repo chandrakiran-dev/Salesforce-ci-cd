@@ -86,7 +86,7 @@ jobs:
                   echo "::set-output name=ticket_number::$value"
                   mkdir .github_actions
                   touch .github_actions/.SFDX_URL_STORE.txt
-                  curl -X GET https://salesforce-orgs-default-rtdb.firebaseio.com/${{ secrets.PROJECT_NAME }}-$value.json?access_token=${{ steps.firebase_token.outputs.ACCESS_TOKEN }} -o .github_actions/.SFDX_URL_STORE.txt
+                  curl https://salesforce-orgs-default-rtdb.firebaseio.com/${{ secrets.PROJECT_NAME }}-$value.json?access_token=${{ steps.firebase_token.outputs.ACCESS_TOKEN }} -o .github_actions/.SFDX_URL_STORE.txt
             - name: Authenticate against scratch org
               uses: forcedotcom/salesforcedx-actions@master
               if: steps.check.outputs.isMatch == 'true' && steps.is_functional.outputs.IS_EXIST == 'true'
