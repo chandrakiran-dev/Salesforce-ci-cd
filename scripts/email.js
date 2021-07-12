@@ -8,7 +8,7 @@ const DISPLAY_USER_JSON = JSON.parse(process.env.DISPLAY_USER_JSON);
 const TO_EMAIL = process.env.TO_EMAIL;
 const SFDX_URL = process.env.SFDX_URL;
 
-const str = '${string:1:-1}';
+const str = '${string}';
 
 const TEXT = `
 Here's your personal scratch org info.
@@ -22,11 +22,23 @@ Login URL: ${DISPLAY_USER_JSON.result.loginUrl}
 
 Login from VS Code
 
+Step 1
+
 mkdir .github_actions
 touch .github_actions/.SFDX_URL_STORE.txt
 string=${SFDX_URL}
 echo ${str} >> .github_actions/.SFDX_URL_STORE.txt
+
+Step 2
+
 sfdx force:auth:sfdxurl:store --sfdxurlfile=.github_actions/.SFDX_URL_STORE.txt --setalias=scratch-org
+
+Step 3
+
+sfdx force:config:set defaultusername=scratch-org
+
+Step 4
+
 rm -r .github_actions
 `;
 console.log('TO_EMAIL', TO_EMAIL);
