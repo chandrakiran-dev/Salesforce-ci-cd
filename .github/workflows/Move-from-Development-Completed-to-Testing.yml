@@ -51,14 +51,17 @@ jobs:
                   git config --local user.name ${{ github.actor }}
                   git checkout ${{ steps.get_branch_name.outputs.BRANCH_NAME }}
             - name: Populate auth file with SFDX_URL secret
+              if: steps.check.outputs.isMatch == 'true'
               shell: bash
               run: echo ${{ secrets.TEST_ORG_SFDXURL }} > ./SFDX_UAT_URL_STORE.txt
             - name: Authenticate against UAT org
+              if: steps.check.outputs.isMatch == 'true'
               uses: forcedotcom/salesforcedx-actions@master
               with:
                   args: force:auth:sfdxurl:store --sfdxurlfile=./SFDX_UAT_URL_STORE.txt --setalias=test-org
             - name: Deploy to Test Org
-              id: varify
+              if: steps.check.outputs.isMatch == 'true'
+              id: deploy
               uses: forcedotcom/salesforcedx-actions@master
               with:
                   args: force:source:deploy -p force-app/main/default --targetusername=test-org
