@@ -1,0 +1,67 @@
+name: Move card from Development Completed to Testing
+
+on:
+    project_card:
+        types: [moved]
+        
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Check move from "DEVELOPMENT COMPLETED" to "TESTING"
+              id: check
+              uses: chandrakiran-dev/sfdx-actions/project_card-check-movement@master
+              with:
+                  token: ${{ secrets.PERSONAL_GIT}}
+                  fromColumnId: ${{ github.event.changes.column_id.from }}
+                  fromColumnName: DEVELOPMENT COMPLETED
+                  toColumnId: ${{ github.event.project_card.column_id }}
+                  toColumnName: TESTING
+            - name: Check out the source code
+              uses: actions/checkout@v1
+              if: steps.check.outputs.isMatch == 'true'
+            - name: Get issue number
+              id: get_issue_number
+              if: steps.check.outputs.isMatch == 'true'
+              shell: bash
+              run: |
+                  value=$(node scripts/extract-issue-number.js ${{ github.event.project_card.content_url }})
+                  echo "::set-output name=ticket_number::$value"
+            - name: Get branch name
+              if: steps.check.outputs.isMatch == 'true'
+              id: get_branch_name
+              uses: chandrakiran-dev/sfdx-actions/get-branch-name@master
+              with:
+                GITHUB_TOKEN: ${{ secrets.PERSONAL_GIT}}
+                ISSUE_NUMBER: ${{ steps.get_issue_number.outputs.ticket_number }}
+                PROJECT_PREFIX: ${{ secrets.PROJECT_NAME }}
+            - name: Get Github User Info
+              id: github_user_info
+              if: steps.check.outputs.isMatch == 'true'
+              uses: chandrakiran-dev/sfdx-actions/get-user-info@master
+              with:
+                GITHUB_TOKEN: ${{ secrets.PERSONAL_GIT}}
+                USERNAME: ${{ github.actor }}
+            - name: Switch brench to feature
+              if: steps.check.outputs.isMatch == 'true'
+              shell: bash
+              run: |
+                  git config --local user.email ${{steps.github_user_info.outputs.OUTPUT_USER}}
+                  git config --local user.name ${{ github.actor }}
+                  git checkout ${{ steps.get_branch_name.outputs.BRANCH_NAME }}
+            - name: Populate auth file with SFDX_URL secret
+              shell: bash
+              run: echo ${{ secrets.UAT_ORG_SFDXURL }} > ./SFDX_UAT_URL_STORE.txt
+            - name: Authenticate against UAT org
+              uses: forcedotcom/salesforcedx-actions@master
+              with:
+                  args: force:auth:sfdxurl:store --sfdxurlfile=./SFDX_UAT_URL_STORE.txt --setalias=uat-org
+            - name: Verify the deployment
+              id: varify
+              uses: forcedotcom/salesforcedx-actions@master
+              with:
+                  args: force:source:deploy -p force-app/main/default -l RunLocalTests --targetusername=uat-org --checkonly --loglevel error
+            - name: Run a one-line script
+              run: echo Run Completed
+           
