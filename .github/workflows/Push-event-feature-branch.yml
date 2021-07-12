@@ -25,7 +25,7 @@ jobs:
       id: varify
       uses: forcedotcom/salesforcedx-actions@master
       with:
-          args: force:source:deploy -p force-app/main/default -l RunLocalTests --targetusername=uat-org --checkonly --loglevel error
+          args: force:source:deploy -p force-app/main/default --targetusername=uat-org --checkonly --json
     - name: Run a one-line script
       run: echo Run Completed
 
