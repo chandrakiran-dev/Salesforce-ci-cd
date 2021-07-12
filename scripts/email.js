@@ -20,9 +20,11 @@ Password: ${DISPLAY_USER_JSON.result.password}
 Instance URL: ${DISPLAY_USER_JSON.result.instanceUrl}
 Login URL: ${DISPLAY_USER_JSON.result.loginUrl}
 
+Login from VS Code
+
 mkdir .github_actions
 touch .github_actions/.SFDX_URL_STORE.txt
-string=SFDX_URL
+string=${SFDX_URL}
 echo ${str} >> .github_actions/.SFDX_URL_STORE.txt
 sfdx force:auth:sfdxurl:store --sfdxurlfile=.github_actions/.SFDX_URL_STORE.txt --setalias=scratch-org
 rm -r .github_actions
