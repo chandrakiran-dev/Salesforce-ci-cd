@@ -31,24 +31,16 @@ mkdir .github_actions
 touch .github_actions/.SFDX_URL_STORE.txt
 string=${SFDX_URL}
 echo ${str} >> .github_actions/.SFDX_URL_STORE.txt
-
-Step 2
-
 sfdx force:auth:sfdxurl:store --sfdxurlfile=.github_actions/.SFDX_URL_STORE.txt --setalias=${org_name}
-
-Step 3
-
 sfdx force:config:set defaultusername=${org_name}
-
-Step 4
-
-rm -r .github_actions
-
-Step 5
-
 git checkout master
 git pull
 git checkout ${BRANCH_NAME}
+
+Step 2
+
+rm -r .github_actions
+
 `;
 console.log('TO_EMAIL', TO_EMAIL);
 
