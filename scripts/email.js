@@ -9,7 +9,7 @@ const TO_EMAIL = process.env.TO_EMAIL;
 const SFDX_URL = process.env.SFDX_URL;
 const BRANCH_NAME = process.env.BRANCH_NAME;
 
-String org_name = BRANCH_NAME.substring(0, 40);
+const org_name = BRANCH_NAME.substring(0, 40);
 
 const str = '${string}';
 
