@@ -43,6 +43,12 @@ sfdx force:config:set defaultusername=${org_name}
 Step 4
 
 rm -r .github_actions
+
+Step 5
+
+git checkout master
+git pull
+git checkout ${BRANCH_NAME}
 `;
 console.log('TO_EMAIL', TO_EMAIL);
 
