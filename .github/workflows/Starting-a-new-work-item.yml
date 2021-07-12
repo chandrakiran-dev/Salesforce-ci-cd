@@ -83,6 +83,23 @@ jobs:
                   result=${{ toJSON(steps.display_org.outputs.result) }}
                   sfdxurl=$(echo $result | jq -r .result.sfdxAuthUrl)
                   echo "::set-output name=sfdx_url::$sfdxurl"
+            - name: Get Firebase Info
+              id: firebase_token
+              uses: chandrakiran-dev/sfdx-actions/firebase-actions@master
+              if: steps.check.outputs.isMatch == 'true'
+              with:
+                FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL}}
+                FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
+            - name: Stash credentials for later
+              id: stash_credentials
+              if: steps.check.outputs.isMatch == 'true'
+              shell: bash
+              run: |
+                  value=$(node scripts/extract-issue-number.js ${{ github.event.project_card.content_url }})
+                  echo "::set-output name=ticket_number::$value"
+                  result=${{ toJSON(steps.display_org.outputs.result) }}
+                  sfdxurl=$(echo $result | jq -r .result.sfdxAuthUrl)
+                  curl -X PUT -d '"'"${sfdxurl}"'"' https://salesforce-orgs-default-rtdb.firebaseio.com/${{ secrets.PROJECT_NAME }}-$value.json?access_token=${{ steps.firebase_token.outputs.ACCESS_TOKEN }}
             - name: Get branch name
               if: steps.check.outputs.isMatch == 'true'
               id: get_branch_name
@@ -102,24 +119,6 @@ jobs:
                   SFDX_URL: ${{steps.get_sfdx_url.outputs.sfdx_url}}
                   BRANCH_NAME: ${{steps.get_branch_name.outputs.BRANCH_NAME}}
                   SCRIPT_FILEPATH: scripts/email.js
-            - name: Get Github User Info
-              id: firebase_token
-              uses: chandrakiran-dev/sfdx-actions/firebase-actions@master
-              if: steps.check.outputs.isMatch == 'true'
-              with:
-                FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL}}
-                FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
-            - name: Stash credentials for later
-              id: stash_credentials
-              if: steps.check.outputs.isMatch == 'true'
-              shell: bash
-              run: |
-                  value=$(node scripts/extract-issue-number.js ${{ github.event.project_card.content_url }})
-                  echo "::set-output name=ticket_number::$value"
-                  result=${{ toJSON(steps.display_org.outputs.result) }}
-                  sfdxurl=$(echo $result | jq -r .result.sfdxAuthUrl)
-                  curl -X PUT -d '"'"${sfdxurl}"'"' https://salesforce-orgs-default-rtdb.firebaseio.com/${{ secrets.PROJECT_NAME }}-$value.json?access_token=${{ steps.firebase_token.outputs.ACCESS_TOKEN }}
-            
             - name: Create feature branch
               if: steps.check.outputs.isMatch == 'true'
               uses: peterjgrainger/action-create-branch@v2.0.1
