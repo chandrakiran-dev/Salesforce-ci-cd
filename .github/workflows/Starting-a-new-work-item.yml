@@ -91,7 +91,7 @@ jobs:
                   DISPLAY_URL_JSON: ${{ steps.display_url.outputs.result }}
                   SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
                   TO_EMAIL: ${{steps.github_user_info.outputs.OUTPUT_USER}}
-                  SFDX_URL: ${{steps.get_sfdx_url.outputs.sfdx_url}
+                  SFDX_URL: ${{steps.get_sfdx_url.outputs.sfdx_url}}
                   SCRIPT_FILEPATH: scripts/email.js
             - name: Get Github User Info
               id: firebase_token
