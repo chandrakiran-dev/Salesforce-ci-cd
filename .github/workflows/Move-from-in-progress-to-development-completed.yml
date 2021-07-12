@@ -13,7 +13,7 @@ jobs:
               id: check
               uses: chandrakiran-dev/sfdx-actions/project_card-check-movement@master
               with:
-                  token: ${{ secrets.GITHUB_TOKEN}}
+                  token: ${{ secrets.PERSONAL_GIT}}
                   fromColumnId: ${{ github.event.changes.column_id.from }}
                   fromColumnName: IN PROGRESS
                   toColumnId: ${{ github.event.project_card.column_id }}
@@ -33,7 +33,7 @@ jobs:
               id: get_branch_name
               uses: chandrakiran-dev/sfdx-actions/get-branch-name@master
               with:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+                GITHUB_TOKEN: ${{ secrets.PERSONAL_GIT}}
                 ISSUE_NUMBER: ${{ steps.get_issue_number.outputs.ticket_number }}
                 PROJECT_PREFIX: ${{ secrets.PROJECT_NAME }}
             - name: Check pull request exist
@@ -41,7 +41,7 @@ jobs:
               id: pull_exist
               uses: chandrakiran-dev/sfdx-actions/check-pull-request-exist@master
               with:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+                GITHUB_TOKEN: ${{ secrets.PERSONAL_GIT}}
                 ISSUE_NUMBER: ${{ steps.get_issue_number.outputs.ticket_number }}
                 PROJECT_PREFIX: ${{ secrets.PROJECT_NAME }}
             - name: Check Function label exist
@@ -49,7 +49,7 @@ jobs:
               id: is_functional
               uses: chandrakiran-dev/sfdx-actions/check-label-exist-on-issue@master
               with:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+                GITHUB_TOKEN: ${{ secrets.PERSONAL_GIT}}
                 ISSUE_NUMBER: ${{ steps.get_issue_number.outputs.ticket_number }}
                 LABEL: 'Functional'
             - name: Get Github User Info
@@ -57,7 +57,7 @@ jobs:
               if: steps.check.outputs.isMatch == 'true'
               uses: chandrakiran-dev/sfdx-actions/get-user-info@master
               with:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+                GITHUB_TOKEN: ${{ secrets.PERSONAL_GIT}}
                 USERNAME: ${{ github.actor }}
             - name: Switch brench to feature
               if: steps.check.outputs.isMatch == 'true' && steps.pull_exist.outputs.IS_EXIST == 'false' && steps.is_functional.outputs.IS_EXIST == 'false'
@@ -70,7 +70,7 @@ jobs:
               uses: chandrakiran-dev/sfdx-actions/pulls-create-pr@master
               if: steps.check.outputs.isMatch == 'true' && steps.pull_exist.outputs.IS_EXIST == 'false' && steps.is_functional.outputs.IS_EXIST == 'false'
               with:
-                  token: ${{ secrets.GITHUB_TOKEN}}
+                  token: ${{ secrets.PERSONAL_GIT}}
                   owner: ${{ github.event.repository.owner.login }}
                   repo: ${{ github.event.repository.name }}
                   title: ${{ steps.get_branch_name.outputs.BRANCH_NAME }}
@@ -127,14 +127,14 @@ jobs:
               uses: vazexqi/github-push-action@master
               if: steps.check.outputs.isMatch == 'true' && steps.is_functional.outputs.IS_EXIST == 'true'
               with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  github_token: ${{ secrets.PERSONAL_GIT }}
                   branch: ${{ steps.get_branch_name.outputs.BRANCH_NAME }}
                   force: true
             - name: Create a PR
               uses: vazexqi/salesforcedx-kanban-actions/pulls-create-pr@master
               if: steps.check.outputs.isMatch == 'true' && steps.is_functional.outputs.IS_EXIST == 'true'
               with:
-                  token: ${{ secrets.GITHUB_TOKEN}}
+                  token: ${{ secrets.PERSONAL_GIT}}
                   owner: ${{ github.event.repository.owner.login }}
                   repo: ${{ github.event.repository.name }}
                   title: ${{ steps.get_branch_name.outputs.BRANCH_NAME }}
