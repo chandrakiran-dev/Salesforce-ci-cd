@@ -83,6 +83,14 @@ jobs:
                   result=${{ toJSON(steps.display_org.outputs.result) }}
                   sfdxurl=$(echo $result | jq -r .result.sfdxAuthUrl)
                   echo "::set-output name=sfdx_url::$sfdxurl"
+            - name: Get branch name
+              if: steps.check.outputs.isMatch == 'true'
+              id: get_branch_name
+              uses: chandrakiran-dev/sfdx-actions/get-branch-name@master
+              with:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+                ISSUE_NUMBER: ${{ steps.stash_credentials.outputs.ticket_number }}
+                PROJECT_PREFIX: ${{ secrets.PROJECT_NAME }}
             - name: SendGrid
               uses: vazexqi/sendgrid-action@v1.0.0
               if: steps.check.outputs.isMatch == 'true'
@@ -92,6 +100,7 @@ jobs:
                   SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
                   TO_EMAIL: ${{steps.github_user_info.outputs.OUTPUT_USER}}
                   SFDX_URL: ${{steps.get_sfdx_url.outputs.sfdx_url}}
+                  BRANCH_NAME: ${{steps.get_branch_name.outputs.BRANCH_NAME}}
                   SCRIPT_FILEPATH: scripts/email.js
             - name: Get Github User Info
               id: firebase_token
@@ -110,14 +119,7 @@ jobs:
                   result=${{ toJSON(steps.display_org.outputs.result) }}
                   sfdxurl=$(echo $result | jq -r .result.sfdxAuthUrl)
                   curl -X PUT -d '"'"${sfdxurl}"'"' https://salesforce-orgs-default-rtdb.firebaseio.com/${{ secrets.PROJECT_NAME }}-$value.json?access_token=${{ steps.firebase_token.outputs.ACCESS_TOKEN }}
-            - name: Get branch name
-              if: steps.check.outputs.isMatch == 'true'
-              id: get_branch_name
-              uses: chandrakiran-dev/sfdx-actions/get-branch-name@master
-              with:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
-                ISSUE_NUMBER: ${{ steps.stash_credentials.outputs.ticket_number }}
-                PROJECT_PREFIX: ${{ secrets.PROJECT_NAME }}
+            
             - name: Create feature branch
               if: steps.check.outputs.isMatch == 'true'
               uses: peterjgrainger/action-create-branch@v2.0.1
