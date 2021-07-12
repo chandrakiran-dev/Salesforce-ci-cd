@@ -7,6 +7,9 @@ const DISPLAY_URL_JSON = JSON.parse(process.env.DISPLAY_URL_JSON);
 const DISPLAY_USER_JSON = JSON.parse(process.env.DISPLAY_USER_JSON);
 const TO_EMAIL = process.env.TO_EMAIL;
 const SFDX_URL = process.env.SFDX_URL;
+const BRANCH_NAME = process.env.BRANCH_NAME;
+
+String org_name = BRANCH_NAME.substring(0, 40);
 
 const str = '${string}';
 
@@ -31,11 +34,11 @@ echo ${str} >> .github_actions/.SFDX_URL_STORE.txt
 
 Step 2
 
-sfdx force:auth:sfdxurl:store --sfdxurlfile=.github_actions/.SFDX_URL_STORE.txt --setalias=scratch-org
+sfdx force:auth:sfdxurl:store --sfdxurlfile=.github_actions/.SFDX_URL_STORE.txt --setalias=${org_name}
 
 Step 3
 
-sfdx force:config:set defaultusername=scratch-org
+sfdx force:config:set defaultusername=${org_name}
 
 Step 4
 
