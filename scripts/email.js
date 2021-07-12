@@ -8,6 +8,8 @@ const DISPLAY_USER_JSON = JSON.parse(process.env.DISPLAY_USER_JSON);
 const TO_EMAIL = process.env.TO_EMAIL;
 const SFDX_URL = process.env.SFDX_URL;
 
+const str = '${string:1:-1}';
+
 const TEXT = `
 Here's your personal scratch org info.
 You can open your org at ${DISPLAY_URL_JSON.result.url}.
@@ -21,7 +23,7 @@ Login URL: ${DISPLAY_USER_JSON.result.loginUrl}
 mkdir .github_actions
 touch .github_actions/.SFDX_URL_STORE.txt
 string=SFDX_URL
-echo ${string:1:-1} >> .github_actions/.SFDX_URL_STORE.txt
+echo ${str} >> .github_actions/.SFDX_URL_STORE.txt
 sfdx force:auth:sfdxurl:store --sfdxurlfile=.github_actions/.SFDX_URL_STORE.txt --setalias=scratch-org
 rm -r .github_actions
 `;
