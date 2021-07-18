@@ -7,14 +7,19 @@ assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+**Background**
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+**Acceptance  Criteria**
+
+
+**Solution Design**
+
 
 **Additional context**
-Add any other context or screenshots about the feature request here.
+
+
+– [ ] subtask 1.1
+– [ ] subtask 1.2
+– [ ] subtask 1.3
+– [ ] subtask 1.4
