@@ -17,9 +17,3 @@ assignees: ''
 
 
 **Additional context**
-
-
-– [ ] subtask 1.1
-– [ ] subtask 1.2
-– [ ] subtask 1.3
-– [ ] subtask 1.4
